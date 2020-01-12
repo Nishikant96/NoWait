@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2kRGEUc8zIY27TfEODohy_3rNSRYo9wc&callback=initMap"
+      async
+      defer
+    ></script>
+    <title>Welcome to NoWait!</title>
+  </head>
+
+  <div id="header">
+    <div class="topnav">
+      <a class="active" href="#HomePage">NoWait!</a>
+      <a href="#About">About Us</a>
+      <a href="#Contact">Contact Us</a>
+      <a href="#AddBusiness">Add Your Business</a>
+    </div>
+  </div>
+
+  <body>
+    <div id="homepage">
+      <div id="map"></div>
+      <!--Add Map Items-->
+
+      <!--Right Pane Form Start-->
+
+      <div class="testbox">
+        <!--style="position:absolute; align-items:right;"-->
+
+        <form>
+          <h1>
+            Welcome to NoWait! Get an appointment at the comfort of your home!
+          </h1>
+          <div class="item">
+            <div class="city-item">
+              <select id="Locator">
+                <option value="">Dummy/Overwritten</option>
+              </select>
+            </div>
+          </div>
+          <div class="item">
+            <h5>Choose date of Appointment</h5>
+            <div class="item">
+              <p>First date on which the events or issues occurred</p>
+              <div>
+                <input type="date" name="name" required />
+                <i class="fas fa-calendar-alt"></i>
+              </div>
+            </div>
+            <div class="btn-block">
+              <button type="submit" onClick="searchAction()">Search</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!--Right Pane Form End-->
+    </div>
+  </body>
+  <script src="starter.js"></script>
+</html>
