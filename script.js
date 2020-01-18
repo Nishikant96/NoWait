@@ -1,11 +1,18 @@
+var PORT = 3306; // process.env.PORT ||
 var express = require("express");
 var mysql = require("mysql");
 var app = express();
 app.use(express.static("public"));
 var path = require("path");
+/*
+var http = require("http");
+var server = http.Server(app);
+// app.use(express.static(path.join(__dirname)));
 
-app.use(express.static(path.join(__dirname)));
-
+server.listen(PORT, function() {
+  console.log("Http Server is running at port " + PORT);
+});
+*/
 //DB Credentials
 var connection = mysql.createConnection({
   host: "remotemysql.com",
@@ -14,7 +21,7 @@ var connection = mysql.createConnection({
   database: "3p5jNBnwhk"
 });
 
-//Check Database connection
+// Check Database connection
 connection.connect(function(error) {
   if (!error) {
     console.log("Connection Successful!");
@@ -30,7 +37,7 @@ app.get("/", function(req, resp) {
   ) {
     if (!error) {
       console.log("Query Successful!");
-      //   console.log(rows);
+      console.log(rows);
     } else {
       console.log("Query Failed!");
     }
@@ -43,6 +50,6 @@ connection.on("error", function(err) {
   console.log("[mysql error]", err);
 });
 
-app.listen(3306, function() {
-  console.log("Listening on port 3306!");
+app.listen(PORT, function() {
+  console.log("Listening on port!" + PORT);
 }); //Port number given here
