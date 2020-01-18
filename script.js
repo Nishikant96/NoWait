@@ -1,4 +1,4 @@
-var PORT = 3306; // process.env.PORT ||
+var PORT = process.env.PORT || 3306;
 var express = require("express");
 var mysql = require("mysql");
 var app = express();
