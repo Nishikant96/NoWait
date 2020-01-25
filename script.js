@@ -37,7 +37,7 @@ app.get("/", function(req, resp) {
   ) {
     if (!error) {
       console.log("Query Successful!");
-      // console.log(rows);
+      console.log(rows);
     } else {
       console.log("Query Failed!");
     }
