@@ -221,7 +221,6 @@ for (var i = 0; i < country_arr.length; i++) {
 
 var bangalore = { lat: 12.97, lng: 77.59 };
 var map;
-
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 20.5937, lng: 78.9629 },
@@ -244,6 +243,54 @@ function initMap() {
   });
 }
 
-function searchAction() {
-  console.log(country_arr[document.getElementById("Locator").value]);
+function zoomMapToState(StateResponse) {
+  var parseStr = JSON.parse(StateResponse)[0];
+  // var latitude = parseStr.Latitude;
+  // var longitude = parseStr.Longitude;
+
+  console.log(parseStr);
+  // console.log(StateResponse);
+  // console.log("aya :  " + parseStr.Latitude);
+  // console.log(parseStr.Longitude);
+  console.log(StateResponse);
+  // map = new google.maps.Map(document.getElementById("map"), {
+  //   center: { lat: longitude, lng: latitude }, //Database Error To be corrected urgent
+  //   zoom: 12
+  // });
 }
+
+//AD-HOC: Code Logic For HTTP Request
+//Search Action picking data from Drop Down LOV
+
+var Data = 0;
+var searchAction = () => {
+  if (document.getElementById("Locator").value == 0) {
+    alert("Please choose Location");
+  } else {
+    //Triggered when Search button Clicked
+    var Str = country_arr[document.getElementById("Locator").value];
+    // console.log("Yaha 1");
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "json";
+    xhr.open("GET", window.location.href + "/SearchLocation?Location=" + Str);
+    xhr.onload = () => {
+      if (xhr.status == 200) {
+        console.log("Inside  onLoad " + Data + 1);
+
+        // parse JSON data
+        data = xhr.response;
+        console.log("Kya horha h bc: " + data);
+      } else {
+        console.error("Error!");
+      }
+      // console.log(JSON.parse(xhr.response));
+      //   //Initialize Zoomed Map Here
+      // zoomMapToState(JSON.parse(xhr.response));
+    };
+    xhr.onerror = () => {
+      console.error("Request failed  error  aayi bhai.");
+    };
+    xhr.send();
+    console.log("Second: " + JSON.parse(xhr.response));
+  }
+};

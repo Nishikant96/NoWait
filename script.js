@@ -4,15 +4,10 @@ var mysql = require("mysql");
 var app = express();
 app.use(express.static("public"));
 var path = require("path");
-/*
+
 var http = require("http");
 var server = http.Server(app);
-// app.use(express.static(path.join(__dirname)));
 
-server.listen(PORT, function() {
-  console.log("Http Server is running at port " + PORT);
-});
-*/
 //DB Credentials
 var connection = mysql.createConnection({
   host: "remotemysql.com",
@@ -30,22 +25,26 @@ connection.connect(function(error) {
 
 app.get("/", function(req, resp) {
   //Mysql Queries Go here
-  connection.query("SELECT * FROM xx_india_location_all", function(
-    error,
-    rows,
-    fields
-  ) {
-    if (!error) {
-      console.log("Query Successful!");
-      console.log(rows);
-    } else {
-      console.log("Query Failed!");
-    }
-  });
-  //   resp.send('<h1>We are now in business</h1>')
-
   resp.sendFile(__dirname + "/index.html"); //Heroku Shit
 });
+app.get("/SearchLocation", function(req, resp) {
+  console.log("HTTP request Successful! " + req.query.Location);
+  connection.query(
+    "SELECT * FROM xx_india_location_all where City='" +
+      req.query.Location +
+      "'",
+    function(error, rows, fields) {
+      if (!error) {
+        console.log("Query Successful for: " + req.query.Location);
+        console.log(rows[0]);
+        resp.json(rows[0]);
+      } else {
+        console.log("Query Failed! " + error);
+      }
+    }
+  );
+});
+
 connection.on("error", function(err) {
   console.log("[mysql error]", err);
 });
