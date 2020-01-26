@@ -243,36 +243,42 @@ function initMap() {
   });
 }
 
-function zoomMapToState(StateResponse) {
-  var parseStr = JSON.parse(StateResponse)[0];
-  // var latitude = parseStr.Latitude;
-  // var longitude = parseStr.Longitude;
+// function zoomMapToState(StateResponse) {
+//   var parseStr = JSON.parse(StateResponse)[0];
+//   // var latitude = parseStr.Latitude;
+//   // var longitude = parseStr.Longitude;
 
-  console.log(parseStr);
-  // console.log(StateResponse);
-  // console.log("aya :  " + parseStr.Latitude);
-  // console.log(parseStr.Longitude);
-  console.log(StateResponse);
-  // map = new google.maps.Map(document.getElementById("map"), {
-  //   center: { lat: longitude, lng: latitude }, //Database Error To be corrected urgent
-  //   zoom: 12
-  // });
-}
+//   console.log(parseStr);
+//   // console.log(StateResponse);
+//   // console.log("aya :  " + parseStr.Latitude);
+//   // console.log(parseStr.Longitude);
+//   console.log(StateResponse);
+//   // map = new google.maps.Map(document.getElementById("map"), {
+//   //   center: { lat: longitude, lng: latitude }, //Database Error To be corrected urgent
+//   //   zoom: 12
+//   // });
+// }
 
 //AD-HOC: Code Logic For HTTP Request
 //Search Action picking data from Drop Down LOV
 
 var Data = 0;
-var searchAction = () => {
+async function searchAction() {
   if (document.getElementById("Locator").value == 0) {
     alert("Please choose Location");
   } else {
     //Triggered when Search button Clicked
     var Str = country_arr[document.getElementById("Locator").value];
+    await fetch(window.location.href + "SearchLocation?Location=" + Str)
+      .then(response => response.json())
+      .then(res => {
+        console.log(res);
+      });
+
     // console.log("Yaha 1");
-    var xhr = new XMLHttpRequest();
+    /*    var xhr = new XMLHttpRequest();
     xhr.responseType = "json";
-    xhr.open("GET", window.location.href + "/SearchLocation?Location=" + Str);
+    xhr.open("GET", window.location.href + "SearchLocation?Location=" + Str);
     xhr.onload = () => {
       if (xhr.status == 200) {
         console.log("Inside  onLoad " + Data + 1);
@@ -290,7 +296,13 @@ var searchAction = () => {
     xhr.onerror = () => {
       console.error("Request failed  error  aayi bhai.");
     };
+    // set timeout
+    xhr.timeout = 5000; // 5 seconds
+
+    // listen for `timeout` event
+    xhr.ontimeout = () => console.log("Request timeout.", xhr.responseURL);
     xhr.send();
     console.log("Second: " + JSON.parse(xhr.response));
+  */
   }
-};
+}
