@@ -225,35 +225,50 @@ for (var i = 0; i < country_arr.length; i++) {
   document.getElementById("Locator").innerHTML = str;
 }
 
-// function getData(){
-
-// }
 var bangalore = { lat: 12.97, lng: 77.59 };
 var map;
 
-function initMap() {
+async function initMap() {
+  // window.initMap = function(){
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 20.5937, lng: 78.9629 },
     zoom: 4.5
   });
-  // let data = getData();
+
   //To be Added Dynamically for given Locations
-  var marker = new google.maps.Marker({
-    position: bangalore,
-    map: map,
-    icon: "http://maps.google.com/mapfiles/ms/icons/blue.png"
-  });
+  await fetch(window.location.href + "getAllLocations")
+    .then(response => response.json())
+    .then(res => {
+      // console.log(res);
 
-  var infoWindow = new google.maps.InfoWindow({
-    content: "<h5>Custom Data</h5>"
-  });
-
-  marker.addListener("mouseover", function() {
-    infoWindow.open(map, marker);
-  });
+      //i + 3 to reduce pin density
+      for (var i = 0; i < res.length - 3; i = i + 3) {
+        var obj = res[i];
+        console.log(obj);
+        //
+        var marker = new google.maps.Marker({
+          position: { lat: obj.Latitude, lng: obj.Longitude },
+          map: map,
+          icon: "http://maps.google.com/mapfiles/ms/icons/blue.png"
+        });
+        //
+        var infowindow = new google.maps.InfoWindow({
+          content: "<h5>" + obj.City + "</h5>"
+        });
+        //creates an infowindow 'key' in the marker.
+        marker.infowindow = infowindow;
+        //finally call the explicit infowindow object
+        marker.addListener("mouseover", function() {
+          return this.infowindow.open(map, this);
+        });
+        marker.addListener("mouseout", function() {
+          return this.infowindow.close();//(map, this);
+        });
+      }
+    });
 }
 
-function zoomMapToState(StateResponse) {
+async function zoomMapToState(StateResponse) {
   console.log(StateResponse.data);
   map = new google.maps.Map(document.getElementById("map"), {
     center: {
@@ -262,6 +277,37 @@ function zoomMapToState(StateResponse) {
     },
     zoom: 12
   });
+  await fetch(window.location.href + "getShopLocations")
+    .then(response => response.json())
+    .then(res => {
+      for (var i = 0; i < res.length; i++) {
+        var obj = res[i];
+        console.log(obj);
+        //
+        var marker = new google.maps.Marker({
+          position: { lat: obj.LatitudeStore, lng: obj.LongitudeStore },
+          map: map,
+          icon: "http://maps.google.com/mapfiles/ms/icons/blue.png"
+        });
+
+        //
+        var infowindow = new google.maps.InfoWindow({
+          content: "<h5>" + obj.StoreName + "</h5>"
+        });
+
+        //creates an infowindow 'key' in the marker.
+        marker.infowindow = infowindow;
+
+        //finally call the explicit infowindow object
+        marker.addListener("mouseover", function() {
+          return this.infowindow.open(map, this);
+        });
+        marker.addListener("mouseout", function() {
+          return this.infowindow.close();//(map, this);
+        });
+        //
+      }
+    });
 }
 
 async function searchAction() {

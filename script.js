@@ -18,8 +18,8 @@ var connection = mysql.createConnection({
 // Check Database connection
 connection.connect(function(error) {
   if (!error) {
-    console.log("Connection Successful!");
-  } else console.log("Connection Failed!");
+    console.log("DB connection Successful!");
+  } else console.log("DB connection Failed!" + error);
 });
 
 app.get("/", function(req, resp) {
@@ -51,6 +51,47 @@ app.get("/SearchLocation", function(req, resp) {
 connection.on("error", function(err) {
   console.log("[mysql error]", err);
 });
+
+app.get("/getAllLocations", function(req, resp) {
+  console.log("HTTP request Successful for All Places! ");
+  connection.query("SELECT * FROM xx_india_location_all", function(
+    error,
+    rows,
+    fields
+  ) {
+    if (!error) {
+      // console.log("Query Successful for: " + req.query.Location);
+      console.log(rows[0]);
+      resp.send(rows);
+    } else {
+      console.log("Query Failed! " + error);
+    }
+  });
+});
+connection.on("error", function(err) {
+  console.log("[mysql error]", err);
+});
+///////////////////////////////
+app.get("/getShopLocations", function(req, resp) {
+  console.log("getShopLocations HTTP request Successful!");
+  connection.query("SELECT * FROM xx_store_locations_all", function(
+    error,
+    rows,
+    fields
+  ) {
+    if (!error) {
+      // console.log("Query Successful for: " + req.query.Location);
+      console.log(rows[0]);
+      resp.send(rows);
+    } else {
+      console.log("Query Failed! " + error);
+    }
+  });
+});
+connection.on("error", function(err) {
+  console.log("[mysql error]", err);
+});
+///////////////////////////////
 
 app.listen(PORT, function() {
   console.log("Listening on port!" + PORT);
