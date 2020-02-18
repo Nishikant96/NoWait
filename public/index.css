@@ -64,17 +64,15 @@ h1 {
 .testbox {
   display: flex;
   justify-content: center;
+  flex-direction: column;
   align-items: center;
   height: inherit;
   padding: 3px;
   width: 50%;
-}
-form {
-  width: 70%;
-  padding: 20px;
   background: #fff;
   box-shadow: 0 2px 5px #ccc;
 }
+
 input,
 select,
 textarea {

@@ -10,7 +10,6 @@
       integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
       crossorigin="anonymous"
     />
-
     <!-- Latest compiled and minified CSS -->
     <link
       rel="stylesheet"
@@ -28,7 +27,6 @@
     ></script>
     <title>Welcome to NoWait!</title>
   </head>
-
   <div id="header">
     <div class="topnav">
       <a class="active" href="#HomePage">NoWait!</a>
@@ -44,36 +42,26 @@
       <!--Add Map Items-->
 
       <!--Right Pane Form Start-->
-
       <div class="testbox">
         <!--style="position:absolute; align-items:right;"-->
-
-        <form>
-          <h1>
-            Welcome to NoWait! Get an appointment at the comfort of your home!
-          </h1>
-          <div class="item">
-            <div class="city-item">
-              <select id="Locator">
-                <option value="">Dummy/Overwritten</option>
-              </select>
-            </div>
+        <h2>
+          Welcome to NoWait! Get an appointment at the comfort of your home!
+        </h2>
+        <div class="item">
+          <div>
+            <!-- class="dropdown-menu" -->
+            <select id="Locator">
+              <option value="">Dummy</option>
+              <!-- class="dropdown-item" -->
+            </select>
           </div>
-          <div class="item">
-            <!--  <h5>Choose date of Appointment</h5>
-            <div class="item">
-              <div>
-                <input type="date" name="name" required />
-                <i class="fas fa-calendar-alt"></i>
-              </div>
-            </div>-->
-            <div class="btn-block">
-              <button type="submit" onClick="searchAction()">Search</button>
-            </div>
+        </div>
+        <div class="item">
+          <div class="btn-block">
+            <button type="submit" onClick="searchAction()">Search</button>
           </div>
-        </form>
+        </div>
       </div>
-
       <!--Right Pane Form End-->
     </div>
   </body>

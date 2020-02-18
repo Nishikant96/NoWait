@@ -215,18 +215,28 @@ var country_arr = new Array(
 );
 var str = "";
 for (var i = 0; i < country_arr.length; i++) {
-  str += '<option value="' + i + '">' + country_arr[i] + "</option>";
-  document.getElementById("Locator").innerHTML = str; //'<option value="'+i+'">'+country_arr[i]+'</option>';
+  str +=
+    '<option value="' +
+    i +
+    '" class="dropdown-item">' +
+    // class="dropdown-item"
+    country_arr[i] +
+    "</option>";
+  document.getElementById("Locator").innerHTML = str;
 }
 
+// function getData(){
+
+// }
 var bangalore = { lat: 12.97, lng: 77.59 };
 var map;
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 20.5937, lng: 78.9629 },
     zoom: 4.5
   });
-
+  // let data = getData();
   //To be Added Dynamically for given Locations
   var marker = new google.maps.Marker({
     position: bangalore,
@@ -243,26 +253,17 @@ function initMap() {
   });
 }
 
-// function zoomMapToState(StateResponse) {
-//   var parseStr = JSON.parse(StateResponse)[0];
-//   // var latitude = parseStr.Latitude;
-//   // var longitude = parseStr.Longitude;
+function zoomMapToState(StateResponse) {
+  console.log(StateResponse.data);
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: {
+      lat: StateResponse.data.Latitude,
+      lng: StateResponse.data.Longitude
+    },
+    zoom: 12
+  });
+}
 
-//   console.log(parseStr);
-//   // console.log(StateResponse);
-//   // console.log("aya :  " + parseStr.Latitude);
-//   // console.log(parseStr.Longitude);
-//   console.log(StateResponse);
-//   // map = new google.maps.Map(document.getElementById("map"), {
-//   //   center: { lat: longitude, lng: latitude }, //Database Error To be corrected urgent
-//   //   zoom: 12
-//   // });
-// }
-
-//AD-HOC: Code Logic For HTTP Request
-//Search Action picking data from Drop Down LOV
-
-var Data = 0;
 async function searchAction() {
   if (document.getElementById("Locator").value == 0) {
     alert("Please choose Location");
@@ -273,36 +274,7 @@ async function searchAction() {
       .then(response => response.json())
       .then(res => {
         console.log(res);
+        zoomMapToState(res);
       });
-
-    // console.log("Yaha 1");
-    /*    var xhr = new XMLHttpRequest();
-    xhr.responseType = "json";
-    xhr.open("GET", window.location.href + "SearchLocation?Location=" + Str);
-    xhr.onload = () => {
-      if (xhr.status == 200) {
-        console.log("Inside  onLoad " + Data + 1);
-
-        // parse JSON data
-        data = xhr.response;
-        console.log("Kya horha h bc: " + data);
-      } else {
-        console.error("Error!");
-      }
-      // console.log(JSON.parse(xhr.response));
-      //   //Initialize Zoomed Map Here
-      // zoomMapToState(JSON.parse(xhr.response));
-    };
-    xhr.onerror = () => {
-      console.error("Request failed  error  aayi bhai.");
-    };
-    // set timeout
-    xhr.timeout = 5000; // 5 seconds
-
-    // listen for `timeout` event
-    xhr.ontimeout = () => console.log("Request timeout.", xhr.responseURL);
-    xhr.send();
-    console.log("Second: " + JSON.parse(xhr.response));
-  */
   }
 }

@@ -2,10 +2,10 @@ var PORT = process.env.PORT || 3306;
 var express = require("express");
 var mysql = require("mysql");
 var app = express();
-app.use(express.static("public"));
 var path = require("path");
 var http = require("http");
 var server = http.Server(app);
+app.use(express.static("public"));
 
 //DB Credentials
 var connection = mysql.createConnection({
@@ -26,7 +26,7 @@ app.get("/", function(req, resp) {
   //Mysql Queries Go here
   resp.sendFile(__dirname + "/index.html"); //Heroku Shit
 });
-//http://localhost:3306/SearchLocation?Location=Alappuzha
+
 app.get("/SearchLocation", function(req, resp) {
   console.log("HTTP request Successful! " + req.query.Location);
   connection.query(
@@ -37,7 +37,6 @@ app.get("/SearchLocation", function(req, resp) {
       if (!error) {
         console.log("Query Successful for: " + req.query.Location);
         console.log(rows[0]);
-        // resp.json(rows[0]);
         resp.send({
           message: "success",
           data: rows[0]
