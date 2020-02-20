@@ -244,36 +244,40 @@ async function initMap() {
       //i + 3 to reduce pin density
       for (var i = 0; i < res.length - 3; i = i + 3) {
         var obj = res[i];
-        console.log(obj);
-        //
+        // console.log(obj);
         var marker = new google.maps.Marker({
           position: { lat: obj.Latitude, lng: obj.Longitude },
           map: map,
           icon: "http://maps.google.com/mapfiles/ms/icons/blue.png"
         });
-        //
         var infowindow = new google.maps.InfoWindow({
           content: "<h5>" + obj.City + "</h5>"
         });
-        //creates an infowindow 'key' in the marker.
         marker.infowindow = infowindow;
-        //finally call the explicit infowindow object
         marker.addListener("mouseover", function() {
           return this.infowindow.open(map, this);
         });
         marker.addListener("mouseout", function() {
           return this.infowindow.close(); //(map, this);
         });
+        console.log("Fetched " + obj.City);
+        //Attach click event to the marker.
+        (function(marker, obj) {
+          google.maps.event.addListener(marker, "click", function(e) {
+            console.log("Clicked " + obj.City);
+            zoomMapToState(obj);
+          });
+        })(marker, obj);
       }
     });
 }
 
 async function zoomMapToState(StateResponse) {
-  console.log(StateResponse.data);
+  console.log(StateResponse);
   map = new google.maps.Map(document.getElementById("map"), {
     center: {
-      lat: StateResponse.data.Latitude,
-      lng: StateResponse.data.Longitude
+      lat: StateResponse.Latitude,
+      lng: StateResponse.Longitude
     },
     zoom: 11
   });
@@ -282,33 +286,27 @@ async function zoomMapToState(StateResponse) {
     .then(res => {
       for (var i = 0; i < res.length; i++) {
         var obj = res[i];
-        console.log(obj);
-        //
         var marker = new google.maps.Marker({
           position: { lat: obj.LatitudeStore, lng: obj.LongitudeStore },
           map: map,
           icon: "http://maps.google.com/mapfiles/ms/icons/blue.png"
         });
-
-        //
         var infowindow = new google.maps.InfoWindow({
           content: "<h5>" + obj.StoreName + "</h5>"
         });
-
-        //creates an infowindow 'key' in the marker.
         marker.infowindow = infowindow;
-
-        //finally call the explicit infowindow object
         marker.addListener("mouseover", function() {
           return this.infowindow.open(map, this);
         });
         marker.addListener("mouseout", function() {
           return this.infowindow.close(); //(map, this);
         });
-        marker.addListener("click", function() {
-          return alert("Clicked " + this.obj.StoreName); //(map, this);
-        });
-        //
+        //Attach click event to the marker.
+        (function(marker, obj) {
+          google.maps.event.addListener(marker, "click", function(e) {
+            console.log("Clicked " + obj.StoreName);
+          });
+        })(marker, obj);
       }
     });
 }
@@ -323,7 +321,7 @@ async function searchAction() {
       .then(response => response.json())
       .then(res => {
         console.log(res);
-        zoomMapToState(res);
+        zoomMapToState(res.data);
       });
   }
 }
