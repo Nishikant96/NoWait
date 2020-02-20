@@ -8,18 +8,15 @@ var server = http.Server(app);
 app.use(express.static("public"));
 
 //DB Credentials
-var connection = mysql.createConnection({
-  host: "remotemysql.com",
-  user: "3p5jNBnwhk",
-  password: "aQDdkJnzLF",
-  database: "3p5jNBnwhk"
-});
-
-// Check Database connection
-connection.connect(function(error) {
-  if (!error) {
-    console.log("DB connection Successful!");
-  } else console.log("DB connection Failed!" + error);
+//   // host: "remotemysql.com",
+//   // user: "3p5jNBnwhk",
+//   // password: "aQDdkJnzLF",
+//   // database: "3p5jNBnwhk"
+var connection = mysql.createPool({
+  host: "185.210.145.1",
+  user: "u198047102_nishikant",
+  password: "u198047102_nishikant",
+  database: "u198047102_NoWait"
 });
 
 app.get("/", function(req, resp) {

@@ -262,7 +262,7 @@ async function initMap() {
           return this.infowindow.open(map, this);
         });
         marker.addListener("mouseout", function() {
-          return this.infowindow.close();//(map, this);
+          return this.infowindow.close(); //(map, this);
         });
       }
     });
@@ -275,7 +275,7 @@ async function zoomMapToState(StateResponse) {
       lat: StateResponse.data.Latitude,
       lng: StateResponse.data.Longitude
     },
-    zoom: 12
+    zoom: 11
   });
   await fetch(window.location.href + "getShopLocations")
     .then(response => response.json())
@@ -303,7 +303,10 @@ async function zoomMapToState(StateResponse) {
           return this.infowindow.open(map, this);
         });
         marker.addListener("mouseout", function() {
-          return this.infowindow.close();//(map, this);
+          return this.infowindow.close(); //(map, this);
+        });
+        marker.addListener("click", function() {
+          return alert("Clicked " + this.obj.StoreName); //(map, this);
         });
         //
       }
