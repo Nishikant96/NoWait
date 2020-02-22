@@ -34,10 +34,7 @@ app.get("/SearchLocation", function(req, resp) {
       if (!error) {
         console.log("Query Successful for: " + req.query.Location);
         console.log(rows[0]);
-        resp.send({
-          message: "success",
-          data: rows[0]
-        });
+        resp.send(rows[0]);
       } else {
         console.log("Query Failed! " + error);
       }

@@ -225,7 +225,7 @@ for (var i = 0; i < country_arr.length; i++) {
   document.getElementById("Locator").innerHTML = str;
 }
 
-var bangalore = { lat: 12.97, lng: 77.59 };
+// var bangalore = { lat: 12.97, lng: 77.59 };
 var map;
 
 async function initMap() {
@@ -271,16 +271,7 @@ async function initMap() {
       }
     });
 }
-
-async function zoomMapToState(StateResponse) {
-  console.log(StateResponse);
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: {
-      lat: StateResponse.Latitude,
-      lng: StateResponse.Longitude
-    },
-    zoom: 11
-  });
+async function loadAllShops() {
   await fetch(window.location.href + "getShopLocations")
     .then(response => response.json())
     .then(res => {
@@ -305,10 +296,22 @@ async function zoomMapToState(StateResponse) {
         (function(marker, obj) {
           google.maps.event.addListener(marker, "click", function(e) {
             console.log("Clicked " + obj.StoreName);
+            makeAppointment(obj);
           });
         })(marker, obj);
       }
     });
+}
+function zoomMapToState(StateResponse) {
+  console.log(StateResponse);
+  map = new google.maps.Map(document.getElementById("map"), {
+    center: {
+      lat: StateResponse.Latitude,
+      lng: StateResponse.Longitude
+    },
+    zoom: 11
+  });
+  loadAllShops();
 }
 
 async function searchAction() {
@@ -321,7 +324,35 @@ async function searchAction() {
       .then(response => response.json())
       .then(res => {
         console.log(res);
-        zoomMapToState(res.data);
+        zoomMapToState(res);
       });
   }
+}
+
+function makeAppointment(obj) {
+  console.log(obj);
+  // $Store_Name$  $Address$
+  document.body.innerHTML = document.body.innerHTML
+    .replace("$Store_Name$", obj.StoreName)
+    .replace("$Address$", obj.StoreName + ", " + obj.City);
+  $(document).ready(function() {
+    // $("#myBtn").click(function() {
+    $("#myModal").modal();
+    // });
+    $("#myModal").on("hidden.bs.modal", function() {
+      document.body.innerHTML = document.body.innerHTML
+        .replace(obj.StoreName, "$Store_Name$")
+        .replace(obj.StoreName + ", " + obj.City, "$Address$");
+      //Map not responding after modal closes. Reloaded below.
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: {
+          lat: obj.LatitudeStore,
+          lng: obj.LongitudeStore
+        },
+        zoom: 11
+      });
+      loadAllShops();
+      //
+    });
+  });
 }

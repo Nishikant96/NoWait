@@ -176,3 +176,72 @@ button:hover {
   }
 }
 /*Side Form End*/
+/* Modal */
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap");
+.modal-block {
+  position: fixed;
+  width: 95%;
+  max-width: 792px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  text-align: center;
+  background-color: #fff;
+  color: #052a40;
+  padding-top: 48px;
+  padding-bottom: 65px;
+  border-radius: 3px;
+}
+.modal-block__title {
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 36px;
+  margin-bottom: 8px;
+}
+.modal-block__subtitle {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 300;
+  margin-bottom: 32px;
+}
+.form {
+  text-align: left;
+  width: 95%;
+  margin: auto;
+}
+.form__label span {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 24px;
+  margin-bottom: 6px;
+}
+.form__label input {
+  background: #f5f5f5;
+  border: 1px solid #dce1e5;
+  border-radius: 2px;
+  padding-left: 3px;
+  height: 48px;
+  outline: none;
+  font-size: 24px;
+}
+.form__label__btn {
+  height: 48px;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    from(#4caf50),
+    to(#4caf4fdc)
+  );
+  background: linear-gradient(180deg, #4caf50 0%, #4caf4fdc 100%);
+  -webkit-box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0px -2px 0px rgba(0, 0, 0, 0.2);
+  border-radius: 2px;
+  border: none;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+  margin-bottom: 13px;
+  cursor: pointer;
+}
+/* Modal */
