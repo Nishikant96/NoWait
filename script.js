@@ -21,7 +21,7 @@ var connection = mysql.createPool({
 
 app.get("/", function(req, resp) {
   //Mysql Queries Go here
-  resp.sendFile(__dirname + "/index.html"); //Heroku Shit
+  resp.sendFile(__dirname + "/index.html");
 });
 
 app.get("/SearchLocation", function(req, resp) {
@@ -66,6 +66,32 @@ connection.on("error", function(err) {
   console.log("[mysql error]", err);
 });
 ///////////////////////////////
+// const bodyParser = require("body-parser");
+
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
+// app.post("/post-test", (req, res) => {});
+// app.post("/makeAppointment", function(req, resp) {
+//   //Mysql Queries Go here
+//   console.log("makeAppointment HTTP request Successful!");
+//   console.log(req);
+
+//   console.log("Got body:", req.body);
+//   resp.sendStatus(200);
+//   // resp.sendFile(__dirname + "/index.html");
+//   // resp.send("Success rows");
+// });
+const bodyParser = require("body-parser");
+
+// const app = express();
+// app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post("/makeAppointment", (req, res) => {
+  console.log("Got body:", req.body);
+  res.sendStatus(200);
+});
+///////////////////////////////
+
 app.get("/getShopLocations", function(req, resp) {
   console.log("getShopLocations HTTP request Successful!");
   connection.query("SELECT * FROM xx_store_locations_all", function(
@@ -85,7 +111,6 @@ app.get("/getShopLocations", function(req, resp) {
 connection.on("error", function(err) {
   console.log("[mysql error]", err);
 });
-///////////////////////////////
 
 app.listen(PORT, function() {
   console.log("Listening on port!" + PORT);

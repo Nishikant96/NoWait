@@ -260,7 +260,7 @@ async function initMap() {
         marker.addListener("mouseout", function() {
           return this.infowindow.close(); //(map, this);
         });
-        console.log("Fetched " + obj.City);
+        // console.log("Fetched " + obj.City);
         //Attach click event to the marker.
         (function(marker, obj) {
           google.maps.event.addListener(marker, "click", function(e) {
@@ -296,7 +296,7 @@ async function loadAllShops() {
         (function(marker, obj) {
           google.maps.event.addListener(marker, "click", function(e) {
             console.log("Clicked " + obj.StoreName);
-            makeAppointment(obj);
+            markerAppointment(obj);
           });
         })(marker, obj);
       }
@@ -329,12 +329,13 @@ async function searchAction() {
   }
 }
 
-function makeAppointment(obj) {
+function markerAppointment(obj) {
   console.log(obj);
-  // $Store_Name$  $Address$
+  // $Store_Name$  $Address$ $Shop_key_ID$
   document.body.innerHTML = document.body.innerHTML
     .replace("$Store_Name$", obj.StoreName)
-    .replace("$Address$", obj.StoreName + ", " + obj.City);
+    .replace("$Address$", obj.StoreName + ", " + obj.City)
+    .replace("$Shop_key_ID$", "'" + obj.Index_Key + "'");
   $(document).ready(function() {
     // $("#myBtn").click(function() {
     $("#myModal").modal();
@@ -342,7 +343,8 @@ function makeAppointment(obj) {
     $("#myModal").on("hidden.bs.modal", function() {
       document.body.innerHTML = document.body.innerHTML
         .replace(obj.StoreName, "$Store_Name$")
-        .replace(obj.StoreName + ", " + obj.City, "$Address$");
+        .replace(obj.StoreName + ", " + obj.City, "$Address$")
+        .replace("'" + obj.Index_Key + "'", "$Shop_key_ID$");
       //Map not responding after modal closes. Reloaded below.
       map = new google.maps.Map(document.getElementById("map"), {
         center: {
@@ -355,4 +357,30 @@ function makeAppointment(obj) {
       //
     });
   });
+}
+
+async function GetAppointment(String) {
+  console.log("Getting Store Appointment for: " + String);
+  // await fetch(window.location.href + "makeAppointment", {
+  //   headers: {
+  //     Accept: "application/json",
+  //     "Content-Type": "application/json"
+  //   },
+  //   method: "post",
+  //   body: '{ username: "scott", password: "secret", website: "stackabuse.com" }'
+  // })
+  //   // .then(response => response.json())
+  //   .then(response => {
+  //     console.log(response);
+  //   });
+  fetch("/makeAppointment", {
+    method: "post",
+    headers: {
+      Accept: "application/json, text/plain, */*",
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ a: 7, str: "Some string: &=&" })
+  })
+    .then(res => res.json())
+    .then(res => console.log(res));
 }
