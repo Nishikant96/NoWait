@@ -359,28 +359,34 @@ function markerAppointment(obj) {
   });
 }
 
-async function GetAppointment(String) {
-  console.log("Getting Store Appointment for: " + String);
-  // await fetch(window.location.href + "makeAppointment", {
-  //   headers: {
-  //     Accept: "application/json",
-  //     "Content-Type": "application/json"
-  //   },
-  //   method: "post",
-  //   body: '{ username: "scott", password: "secret", website: "stackabuse.com" }'
-  // })
-  //   // .then(response => response.json())
-  //   .then(response => {
-  //     console.log(response);
-  //   });
-  fetch("/makeAppointment", {
-    method: "post",
-    headers: {
-      Accept: "application/json, text/plain, */*",
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ a: 7, str: "Some string: &=&" })
-  })
-    .then(res => res.json())
-    .then(res => console.log(res));
+function validateModal() {
+  console.log("Validating");
+  if (
+    document.getElementById("customer_number").value == "" ||
+    document.getElementById("customer_name").value == ""
+  ) {
+    alert("Add your Data");
+    return false;
+  }
+  return true;
+}
+
+async function GetAppointment(Store_key_id) {
+  console.log("Getting Store Appointment for: " + Store_key_id);
+  if (validateModal()) {
+    await fetch(window.location.href + "makeAppointment", {
+      method: "post",
+      headers: {
+        Accept: "application/json, text/plain, */*",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        phone: document.getElementById("customer_number").value,
+        str: Store_key_id,
+        cust_name: document.getElementById("customer_name").value
+      })
+    })
+      .then(res => res.json())
+      .then(res => console.log(res));
+  }
 }
