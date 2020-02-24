@@ -337,9 +337,7 @@ function markerAppointment(obj) {
     .replace("$Address$", obj.StoreName + ", " + obj.City)
     .replace("$Shop_key_ID$", "'" + obj.Index_Key + "'");
   $(document).ready(function() {
-    // $("#myBtn").click(function() {
     $("#myModal").modal();
-    // });
     $("#myModal").on("hidden.bs.modal", function() {
       document.body.innerHTML = document.body.innerHTML
         .replace(obj.StoreName, "$Store_Name$")
@@ -387,6 +385,44 @@ async function GetAppointment(Store_key_id) {
       })
     })
       .then(res => res.json())
-      .then(res => console.log(res));
+      .then(
+        (
+          res //console.log(res);
+        ) =>
+          //Give Confirmation of Appointment
+          {
+            // $("#myModal").modal("hide");
+            $("#myModal").modal("toggle");
+            giveConfirmation(res);
+          }
+      );
   }
+}
+
+function giveConfirmation(res) {
+  console.log(res);
+  document.body.innerHTML = document.body.innerHTML.replace(
+    "$Token_Number$",
+    "is: " + res.Token
+  );
+  $(document).ready(function() {
+    $("#ConfirmModal").modal();
+    $("#ConfirmModal").on("hidden.bs.modal", function() {
+      document.body.innerHTML = document.body.innerHTML.replace(
+        "is: " + res.Token,
+        "$Token_Number$"
+      );
+      //Map not responding after modal closes. Reloaded below.
+      // map = new google.maps.Map(document.getElementById("map"), {
+      //   center: {
+      //     lat: obj.LatitudeStore,
+      //     lng: obj.LongitudeStore
+      //   },
+      //   zoom: 11
+      // });
+      // loadAllShops();
+      
+      console.log("Modal Hidden");
+    });
+  });
 }

@@ -94,8 +94,36 @@
     </div>
   </div>
   <!-- Modal End -->
-
-  <body>
+<!-- Confirmation Modal -->
+<div class="modal fade" id="ConfirmModal" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div id="page">
+        <div class="modal-block d-flex flex-column">
+          <span>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </span>
+          <span class="modal-block__title"
+            ><h2>Great! We've made an Appointment for you!</h2></span> 
+          
+          <span class="modal-block__subtitle">Your Token Number $Token_Number$</span>
+            <button
+              type="button"
+              class="form__label__btn"
+              data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Confirmation Modal End-->
+<body>
     <div id="homepage">
       <div id="map"></div>
       <!--Add Map Items-->
