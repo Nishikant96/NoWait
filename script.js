@@ -8,11 +8,7 @@ var server = http.Server(app);
 app.use(express.static("public"));
 app.use(express.json());
 const bodyParser = require("body-parser");
-//DB Credentials
-//   // host: "remotemysql.com",
-//   // user: "3p5jNBnwhk",
-//   // password: "aQDdkJnzLF",
-//   // database: "3p5jNBnwhk"
+
 var connection = mysql.createPool({
   host: "185.210.145.1",
   user: "u198047102_nishikant",
@@ -55,7 +51,6 @@ app.get("/getAllLocations", function(req, resp) {
     fields
   ) {
     if (!error) {
-      // console.log("Query Successful for: " + req.query.Location);
       console.log(rows[0]);
       resp.send(rows);
     } else {
@@ -66,7 +61,6 @@ app.get("/getAllLocations", function(req, resp) {
 connection.on("error", function(err) {
   console.log("[mysql error]", err);
 });
-///////////////////////////////
 app.post("/makeAppointment", (req, res) => {
   console.log("Got body:", req.body);
 
@@ -109,7 +103,6 @@ app.post("/makeAppointment", (req, res) => {
             }
           }
         );
-        // res.send(" " + Token_Number_New);
       } else {
         console.log("Query Failed! " + error);
       }
@@ -118,11 +111,7 @@ app.post("/makeAppointment", (req, res) => {
   connection.on("error", function(err) {
     console.log("[mysql error]", err);
   });
-  ///
-  // res.json({ "200": "Success" });
 });
-///////////////////////////////
-
 app.get("/getShopLocations", function(req, resp) {
   console.log("getShopLocations HTTP request Successful!");
   connection.query("SELECT * FROM xx_store_locations_all", function(
@@ -140,6 +129,92 @@ app.get("/getShopLocations", function(req, resp) {
 });
 connection.on("error", function(err) {
   console.log("[mysql error]", err);
+});
+
+app.get("/about", function(req, resp) {
+  resp.sendFile(__dirname + "/about.html");
+});
+
+app.get("/contact-us", function(req, resp) {
+  resp.sendFile(__dirname + "/contact-us.html");
+});
+
+app.get("/AddBusiness", function(req, resp) {
+  resp.sendFile(__dirname + "/AddBusiness.html");
+});
+
+app.post("/AddBusiness/createStore", (req, res) => {
+  console.log("Got body:", req.body);
+  //Insert a new Store
+  /////////////////
+
+  connection.query(
+    "SELECT MAX(Index_Key) AS 'Index' FROM xx_store_locations_all",
+    function(error, rows, fields) {
+      if (!error) {
+        console.log(rows[0]);
+        let Store_Index = rows[0].Index + 1;
+        //Insert a new Store
+        connection.query(
+          "INSERT INTO xx_store_locations_all(Index_Key, StoreName, LatitudeStore, LongitudeStore, City) VALUES (" +
+            +Store_Index +
+            "," +
+            "'" +
+            req.body.StoreName +
+            "'" +
+            "," +
+            "'" +
+            req.body.Latitude +
+            "'" +
+            "," +
+            req.body.Longitude +
+            "," +
+            "'Manual'" +
+            ")",
+          function(error, rows, fields) {
+            if (!error) {
+              console.log(
+                "Data Inserted Successfully for " + req.body.StoreName
+              );
+              // res.json({ Status: "Success", Token: Store_Index });
+            } else {
+              console.log("Query Failed! " + error);
+              res.json({ Status: "Failed", Token: "Null" });
+            }
+          }
+        );
+
+        connection.query(
+          "INSERT INTO xx_users_all ( User_Email, Password, Store_Number) VALUES ('" +
+            req.body.email +
+            "'" +
+            "," +
+            "'" +
+            req.body.Password +
+            "'" +
+            "," +
+            Store_Index +
+            ")",
+          function(error, rows, fields) {
+            if (!error) {
+              console.log("User Created Successfully for " + req.body.email);
+              res.json({ Status: "Success", Token: Store_Index });
+            } else {
+              console.log("Query Failed! " + error);
+              res.json({ Status: "Failed", Token: "Null" });
+            }
+          }
+        );
+      } else {
+        console.log("Query Failed! " + error);
+      }
+    }
+  );
+  connection.on("error", function(err) {
+    console.log("[mysql error]", err);
+  });
+
+  ////////////////
 });
 
 app.listen(PORT, function() {
