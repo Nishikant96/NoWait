@@ -81,10 +81,21 @@ html {
 .title {
   color: grey;
 }
-.img {
-  width: 200px;
-  height: 100px;
+#myimg {
+  width: 50%;
+  /* align-content: center; */
 }
+#imagebox {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+#contact {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .button {
   border: none;
   outline: 0;

@@ -112,7 +112,13 @@ async function CreateStore() {
       .then(res => {
         //logic creation response
         console.log(res);
+        $("#StoreModal").modal("toggle");
       });
   }
+}
+function returnHome() {
+  console.log("Going Home");
+  let string = window.location.href;
+  window.location.href = string.substr(0, string.length - 11);
 }
 //////////////////////////
