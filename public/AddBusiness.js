@@ -1,4 +1,3 @@
-console.log("Inside Script.");
 // var bangalore = { lat: 12.97, lng: 77.59 };
 // var map;
 

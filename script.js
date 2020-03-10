@@ -135,8 +135,8 @@ app.get("/about", function(req, resp) {
   resp.sendFile(__dirname + "/about.html");
 });
 
-app.get("/contact-us", function(req, resp) {
-  resp.sendFile(__dirname + "/contact-us.html");
+app.get("/searchAction", function(req, resp) {
+  resp.sendFile(__dirname + "/searchAction.html");
 });
 
 app.get("/AddBusiness", function(req, resp) {
