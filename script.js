@@ -217,6 +217,58 @@ app.post("/AddBusiness/createStore", (req, res) => {
   ////////////////
 });
 
+// searchCustomers
+
+app.post("/searchAction/searchAppointment", function(req, resp) {
+  console.log("Search Mode on! ");
+  connection.query(
+    "SELECT a.*,b.StoreName FROM xx_appointments_all a, xx_store_locations_all b WHERE a.Store_Key_Id = b.Index_Key and a.User_Phone_Number = " +
+      req.body.Number,
+    function(error, rows, fields) {
+      if (!error) {
+        console.log(rows[0]);
+        resp.send(rows);
+      } else {
+        console.log("Query Failed! " + error);
+      }
+    }
+  );
+});
+connection.on("error", function(err) {
+  console.log("[mysql error]", err);
+});
+
+//
+
+app.post("/searchAction/searchCustomers", function(req, resp) {
+  console.log(
+    "SELECT * FROM xx_appointments_all WHERE Store_Key_Id in (Select Store_Number from xx_users_all where User_Email ='" +
+      req.body.email +
+      "' and Password='" +
+      req.body.Password +
+      "') "
+  );
+  connection.query(
+    "SELECT * FROM xx_appointments_all WHERE Store_Key_Id in (Select Store_Number from xx_users_all where User_Email ='" +
+      req.body.email +
+      "' and Password='" +
+      req.body.Password +
+      "') ",
+    function(error, rows, fields) {
+      if (!error) {
+        console.log(rows[0]);
+        resp.send(rows);
+      } else {
+        console.log("Query Failed! " + error);
+      }
+    }
+  );
+});
+connection.on("error", function(err) {
+  console.log("[mysql error]", err);
+});
+
+//////////////////////////////////
 app.listen(PORT, function() {
   console.log("Listening on port!" + PORT);
 }); //Port number given here

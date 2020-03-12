@@ -385,15 +385,12 @@ async function GetAppointment(Store_key_id) {
       })
     })
       .then(res => res.json())
-      .then(
-        (
-          res //console.log(res);
-        ) =>
-          //Give Confirmation of Appointment
-          {
-            $("#myModal").modal("toggle");
-            giveConfirmation(res);
-          }
+      .then(res =>
+        //Give Confirmation of Appointment
+        {
+          $("#myModal").modal("toggle");
+          giveConfirmation(res);
+        }
       );
   }
 }
@@ -411,17 +408,6 @@ function giveConfirmation(res) {
         "is: " + res.Token,
         "$Token_Number$"
       );
-      //Map not responding after modal closes. Reloaded below.
-      // map = new google.maps.Map(document.getElementById("map"), {
-      //   center: {
-      //     lat: obj.LatitudeStore,
-      //     lng: obj.LongitudeStore
-      //   },
-      //   zoom: 11
-      // });
-      // loadAllShops();
-      
-      console.log("Modal Hidden");
     });
   });
 }
