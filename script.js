@@ -139,6 +139,10 @@ app.get("/searchAction", function(req, resp) {
   resp.sendFile(__dirname + "/searchAction.html");
 });
 
+// app.get("/test", function(req, resp) {
+//   resp.sendFile(__dirname + "/test.html");
+// });
+
 app.get("/AddBusiness", function(req, resp) {
   resp.sendFile(__dirname + "/AddBusiness.html");
 });
