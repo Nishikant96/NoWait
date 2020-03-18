@@ -388,7 +388,6 @@ async function GetAppointment(Store_key_id) {
       .then(res =>
         //Give Confirmation of Appointment
         {
-          $("#myModal").modal("toggle");
           giveConfirmation(res);
         }
       );

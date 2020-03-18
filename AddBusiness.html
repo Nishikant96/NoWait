@@ -43,8 +43,9 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+        <a class="navbar-brand logo" href="./" style="font-family:verdana;font-size: 21px; color: #fff;">NoWait</a>
         <div class="collapse navbar-collapse justify-content-between" id="navbarTogglerDemo01">
-          <a class="navbar-brand logo" href="./" style="font-family:verdana;font-size: 21px; color: #fff;">NoWait</a>
+
           <ul class="navbar-nav ml-auto mt-2 mt-lg-0" >
             <li class="nav-item">
               <a class="nav-link" href="./">Home</a>
@@ -69,21 +70,20 @@
       <div id="page">
         <div class="modal-block d-flex flex-column">
           <span onclick="returnHome()">
-            <button type="button" class="close"   data-dismiss="modal">
+            <button type="button" class="close btn-outline-dark"   data-dismiss="modal">
               &times;
             </button>
           </span> 
           <span class="modal-block__title"
             ><h2>Great! Your store is ready!</h2></span> 
-          
-          <!-- <span class="modal-block__subtitle">Your Token Number $Token_Number$</span> -->
-            <button
+            <span class="modal_footer ml-auto">
+              <button
               type="button"
-              class="form__label__btn"
+              class="btn btn-outline-dark"
               onclick="returnHome()"
-              data-dismiss="modal">
+              data-dismiss="modal" style="white-space:normal; ">
               Return to Homepage
-            </button>
+            </button></span>
           </div>
         </div>
       </div>
@@ -147,7 +147,7 @@
           name="pwd"
         />
       </div>
-      <button type="submit" class="btn btn-primary" onclick="CreateStore()">
+      <button type="submit" class="btn btn-outline-dark text-nowrap" onclick="CreateStore()">
         Create Store!
       </button>
     </div>
