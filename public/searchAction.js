@@ -1,9 +1,36 @@
-// console.log("Inside Script.");
-function validateForm() {
+function validateAppointmentForm() {
+  var num = document.getElementById("Number").value;
+  if (num.length != 10) {
+    return false;
+  }
+  for (n = 0; n < num.length; n++) {
+    digit =
+      (num.charCodeAt(n) >= 48 && num.charCodeAt(n) <= 57) ||
+      num.charCodeAt(n) == 46 ||
+      num.charCodeAt(n) == 45;
+    if (!digit) {
+      return false;
+    }
+  }
+  return true;
+}
+function validateCustomerForm() {
+  var x = document.getElementById("email").value;
+  var y = document.getElementById("pwd").value;
+  var atposition = x.indexOf("@");
+  var dotposition = x.lastIndexOf(".");
+  if (
+    atposition < 1 ||
+    dotposition < atposition + 2 ||
+    dotposition + 2 >= x.length ||
+    y.length == 0
+  ) {
+    return false;
+  }
   return true;
 }
 async function searchAppointment() {
-  if (validateForm()) {
+  if (validateAppointmentForm()) {
     //Need to be separately designed Validate Form
     await fetch(window.location.href + "/searchAppointment", {
       method: "post",
@@ -36,11 +63,13 @@ async function searchAppointment() {
         document.getElementById("CustomerBody").innerHTML = str;
         document.getElementById("CustomerRoot").style.display = "block";
       });
+  } else {
+    alert("Enter Valid Mobile Number");
   }
 }
 
 async function searchCustomers() {
-  if (validateForm()) {
+  if (validateCustomerForm()) {
     //Need to be separately designed Validate Form
     await fetch(window.location.href + "/searchCustomers", {
       method: "post",
@@ -75,5 +104,7 @@ async function searchCustomers() {
         document.getElementById("StoreBody").innerHTML = str;
         document.getElementById("StoreRoot").style.display = "block";
       });
+  } else {
+    alert("Please enter a valid e-mail address and Password");
   }
 }

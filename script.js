@@ -149,9 +149,8 @@ app.get("/AddBusiness", function(req, resp) {
 
 app.post("/AddBusiness/createStore", (req, res) => {
   console.log("Got body:", req.body);
-  //Insert a new Store
-  /////////////////
 
+  //Insert a new Store
   connection.query(
     "SELECT MAX(Index_Key) AS 'Index' FROM xx_store_locations_all",
     function(error, rows, fields) {
@@ -161,7 +160,7 @@ app.post("/AddBusiness/createStore", (req, res) => {
         //Insert a new Store
         connection.query(
           "INSERT INTO xx_store_locations_all(Index_Key, StoreName, LatitudeStore, LongitudeStore, City) VALUES (" +
-            +Store_Index +
+            Store_Index +
             "," +
             "'" +
             req.body.StoreName +
@@ -181,31 +180,35 @@ app.post("/AddBusiness/createStore", (req, res) => {
                 "Data Inserted Successfully for " + req.body.StoreName
               );
               // res.json({ Status: "Success", Token: Store_Index });
+              connection.query(
+                "INSERT INTO xx_users_all ( User_Email, Password, Store_Number) VALUES ('" +
+                  req.body.email +
+                  "'" +
+                  "," +
+                  "'" +
+                  req.body.Password +
+                  "'" +
+                  "," +
+                  Store_Index +
+                  ")",
+                function(error, rows, fields) {
+                  if (!error) {
+                    console.log(
+                      "User Created Successfully for " + req.body.email
+                    );
+                    res.json({ Status: "Success", Token: Store_Index });
+                  } else {
+                    console.log("Query Failed! " + error);
+                    res.json({
+                      Status: "Failed",
+                      Token: "User Creation Failed!"
+                    });
+                  }
+                }
+              );
             } else {
               console.log("Query Failed! " + error);
-              res.json({ Status: "Failed", Token: "Null" });
-            }
-          }
-        );
-
-        connection.query(
-          "INSERT INTO xx_users_all ( User_Email, Password, Store_Number) VALUES ('" +
-            req.body.email +
-            "'" +
-            "," +
-            "'" +
-            req.body.Password +
-            "'" +
-            "," +
-            Store_Index +
-            ")",
-          function(error, rows, fields) {
-            if (!error) {
-              console.log("User Created Successfully for " + req.body.email);
-              res.json({ Status: "Success", Token: Store_Index });
-            } else {
-              console.log("Query Failed! " + error);
-              res.json({ Status: "Failed", Token: "Null" });
+              res.json({ Status: "Failed", Token: "Store Creation Failed!" });
             }
           }
         );
@@ -217,8 +220,6 @@ app.post("/AddBusiness/createStore", (req, res) => {
   connection.on("error", function(err) {
     console.log("[mysql error]", err);
   });
-
-  ////////////////
 });
 
 // searchCustomers
