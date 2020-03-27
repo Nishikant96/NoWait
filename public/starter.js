@@ -219,7 +219,6 @@ for (var i = 0; i < country_arr.length; i++) {
     '<option value="' +
     i +
     '" class="dropdown-item">' +
-    // class="dropdown-item"
     country_arr[i] +
     "</option>";
   document.getElementById("Locator").innerHTML = str;
@@ -227,9 +226,7 @@ for (var i = 0; i < country_arr.length; i++) {
 
 // var bangalore = { lat: 12.97, lng: 77.59 };
 var map;
-
 async function initMap() {
-  // window.initMap = function(){
   map = new google.maps.Map(document.getElementById("map"), {
     center: { lat: 20.5937, lng: 78.9629 },
     zoom: 4.5
@@ -239,8 +236,6 @@ async function initMap() {
   await fetch(window.location.href + "getAllLocations")
     .then(response => response.json())
     .then(res => {
-      // console.log(res);
-
       //i + 3 to reduce pin density
       for (var i = 0; i < res.length - 3; i = i + 3) {
         var obj = res[i];
@@ -264,7 +259,7 @@ async function initMap() {
         //Attach click event to the marker.
         (function(marker, obj) {
           google.maps.event.addListener(marker, "click", function(e) {
-            console.log("Clicked " + obj.City);
+            // console.log("Clicked " + obj.City);
             zoomMapToState(obj);
           });
         })(marker, obj);
@@ -323,14 +318,14 @@ async function searchAction() {
     await fetch(window.location.href + "SearchLocation?Location=" + Str)
       .then(response => response.json())
       .then(res => {
-        console.log(res);
+        // console.log(res);
         zoomMapToState(res);
       });
   }
 }
 
 function markerAppointment(obj) {
-  console.log(obj);
+  // console.log(obj);
   // $Store_Name$  $Address$ $Shop_key_ID$
   document.body.innerHTML = document.body.innerHTML
     .replace("$Store_Name$", obj.StoreName)
@@ -356,14 +351,30 @@ function markerAppointment(obj) {
     });
   });
 }
+function validateNumber() {
+  var num = document.getElementById("customer_number").value;
+  if (num.length != 10) {
+    return false;
+  }
+  for (n = 0; n < num.length; n++) {
+    digit =
+      (num.charCodeAt(n) >= 48 && num.charCodeAt(n) <= 57) ||
+      num.charCodeAt(n) == 46 ||
+      num.charCodeAt(n) == 45;
+    if (!digit) {
+      return false;
+    }
+  }
+  return true;
+}
 
 function validateModal() {
   console.log("Validating");
   if (
-    document.getElementById("customer_number").value == "" ||
+    validateNumber() ||
     document.getElementById("customer_name").value == ""
   ) {
-    alert("Add your Data");
+    alert("Please add Valid Data");
     return false;
   }
   return true;
