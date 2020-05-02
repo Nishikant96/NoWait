@@ -239,7 +239,6 @@ async function initMap() {
       //i + 3 to reduce pin density
       for (var i = 0; i < res.length - 3; i = i + 3) {
         var obj = res[i];
-        // console.log(obj);
         var marker = new google.maps.Marker({
           position: { lat: obj.Latitude, lng: obj.Longitude },
           map: map,
@@ -255,11 +254,9 @@ async function initMap() {
         marker.addListener("mouseout", function() {
           return this.infowindow.close(); //(map, this);
         });
-        // console.log("Fetched " + obj.City);
         //Attach click event to the marker.
         (function(marker, obj) {
           google.maps.event.addListener(marker, "click", function(e) {
-            // console.log("Clicked " + obj.City);
             zoomMapToState(obj);
           });
         })(marker, obj);
@@ -310,22 +307,21 @@ function zoomMapToState(StateResponse) {
 }
 
 async function searchAction() {
+  document.getElementById("ChooseLocation").style.display = "none";
   if (document.getElementById("Locator").value == 0) {
-    alert("Please choose Location");
+    document.getElementById("ChooseLocation").style.display = "block";
   } else {
     //Triggered when Search button Clicked
     var Str = country_arr[document.getElementById("Locator").value];
     await fetch(window.location.href + "SearchLocation?Location=" + Str)
       .then(response => response.json())
       .then(res => {
-        // console.log(res);
         zoomMapToState(res);
       });
   }
 }
 
 function markerAppointment(obj) {
-  // console.log(obj);
   // $Store_Name$  $Address$ $Shop_key_ID$
   document.body.innerHTML = document.body.innerHTML
     .replace("$Store_Name$", obj.StoreName)
@@ -356,7 +352,9 @@ function validateNumber() {
   if (num.length != 10) {
     return false;
   }
+
   for (n = 0; n < num.length; n++) {
+    // console.log(n);
     digit =
       (num.charCodeAt(n) >= 48 && num.charCodeAt(n) <= 57) ||
       num.charCodeAt(n) == 46 ||
@@ -369,18 +367,22 @@ function validateNumber() {
 }
 
 function validateModal() {
-  console.log("Validating");
-  if (
-    validateNumber() ||
-    document.getElementById("customer_name").value == ""
-  ) {
-    alert("Please add Valid Data");
-    return false;
+  var flag = true;
+  if (document.getElementById("customer_name").value == "") {
+    document.getElementById("ValidateUserName").style.display = "block";
+    flag = false;
   }
-  return true;
+  if (!validateNumber()) {
+    document.getElementById("ValidateNumber").style.display = "block";
+    // alert("Please add Valid Data");
+    flag = false;
+  }
+  return flag;
 }
 
 async function GetAppointment(Store_key_id) {
+  document.getElementById("ValidateUserName").style.display = "none";
+  document.getElementById("ValidateNumber").style.display = "none";
   console.log("Getting Store Appointment for: " + Store_key_id);
   if (validateModal()) {
     await fetch(window.location.href + "makeAppointment", {

@@ -15,21 +15,29 @@ function validateAppointmentForm() {
   return true;
 }
 function validateCustomerForm() {
-  var x = document.getElementById("email").value;
-  var y = document.getElementById("pwd").value;
-  var atposition = x.indexOf("@");
-  var dotposition = x.lastIndexOf(".");
+  let x = document.getElementById("email").value;
+  let y = document.getElementById("pwd").value;
+  let atposition = x.indexOf("@");
+  let dotposition = x.lastIndexOf(".");
+  let flag = 0;
   if (
     atposition < 1 ||
     dotposition < atposition + 2 ||
-    dotposition + 2 >= x.length ||
-    y.length == 0
+    dotposition + 2 >= x.length
   ) {
-    return false;
+    document.getElementById("emailValidText").style.display = "block";
+    flag = 1;
   }
+  if (y.length == 0) {
+    document.getElementById("passwordValidText").style.display = "block";
+    flag = 1;
+  }
+  if (flag) return false;
   return true;
 }
 async function searchAppointment() {
+  document.getElementById("numberValidText").style.display = "none";
+
   if (validateAppointmentForm()) {
     //Need to be separately designed Validate Form
     await fetch(window.location.href + "/searchAppointment", {
@@ -64,11 +72,13 @@ async function searchAppointment() {
         document.getElementById("CustomerRoot").style.display = "block";
       });
   } else {
-    alert("Enter Valid Mobile Number");
+    document.getElementById("numberValidText").style.display = "block";
   }
 }
 
 async function searchCustomers() {
+  document.getElementById("emailValidText").style.display = "none";
+  document.getElementById("passwordValidText").style.display = "none";
   if (validateCustomerForm()) {
     //Need to be separately designed Validate Form
     await fetch(window.location.href + "/searchCustomers", {
@@ -104,7 +114,5 @@ async function searchCustomers() {
         document.getElementById("StoreBody").innerHTML = str;
         document.getElementById("StoreRoot").style.display = "block";
       });
-  } else {
-    alert("Please enter a valid e-mail address and Password");
   }
 }

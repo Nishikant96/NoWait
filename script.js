@@ -70,7 +70,7 @@ app.post("/makeAppointment", (req, res) => {
       req.body.str,
     function(error, rows, fields) {
       if (!error) {
-        console.log(rows[0]);
+        console.log("Phone: " + req.body.phone);
         var Token_Number_New = rows[0].Token_Number;
         if (rows[0].Token_Number === null) {
           Token_Number_New = 0;

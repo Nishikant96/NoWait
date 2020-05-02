@@ -81,13 +81,16 @@
                      <div class="form">
                         <label class="form__label d-flex flex-column">
                         <span>Enter your Name*</span>
+                        <label><div id="ValidateUserName" style='color:red;display:none;'>Please enter a Valid Name!</div></label>
                         <input type="text" id="customer_name"/>
                         </label>
                         <label class="form__label d-flex flex-column">
                         <span>Enter Mobile Number*</span>
-                        <input type="text" id="customer_number"/>
+                        <label ><div id="ValidateNumber" style='color:red; display:none;'>Please enter a Valid Number!</div></label>
+                        <input type="text" id="customer_number" maxlength="10"/>
                         </label>
-                        <button type="button" class="btn btn-outline-dark text-nowrap" onclick='GetAppointment($Shop_key_ID$)' data-dismiss="modal">
+                        <button type="button" class="btn btn-outline-dark 
+                        text-nowrap" onclick='GetAppointment($Shop_key_ID$)' data-dismiss="modal">
                         Get Appointment!
                         </button>
                         <button
@@ -126,7 +129,7 @@
                      <button
                         type="button"
                         onclick="location.reload()"
-                        class="btn btn-outline-dark"
+                        class="btn btn-outline-dark ml-5"
                         data-dismiss="modal">
                      Close
                      </button>
@@ -148,6 +151,7 @@
             <div class="item">
                <div>
                   <!-- class="dropdown-menu" -->
+                  <label><div id="ChooseLocation" style='color:red;display:none;'>Please Choose a Location!</div></label>
                   <select id="Locator">
                      <option value="">Dummy</option>
                      <!-- class="dropdown-item" -->
